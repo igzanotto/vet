@@ -1,0 +1,199 @@
+<div class="container ml-auto">
+
+  <section class="pt-0" style="background-color: #F4F4F4; padding-bottom: 80px;">
+    <div class="container">
+
+      <div class="row">
+        <div class="col" data-aos="zoom-in">
+          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 d-flex justify-content-between" style="background-color: #FFFFFF !important;">
+            <ol class="breadcrumb mb-0 align-self-center">
+              <li class="breadcrumb-item h4 m-0", style="font-weight: bolder;">Clinical History for: <span class="highlight-container" style= "margin-left: 10px; padding: 10px;"><span class="highlight" style= "color: white;"><%= @pet.name %></span></span></li>
+            </ol>
+            <div class="align-self-center mb-0 ml-auto h4">
+              <%= image_tag("avatar.png") %>
+            </div>
+          </nav>
+        </div>
+      </div>
+
+<%# ----------------CLINICAL HISTORY SECTION -------------------%>
+
+      <div class="container shadow bg-white mt-4 p-3" data-aos="zoom-in">
+        <div class="container mt-3 mb-3">
+
+          <div class="card">
+            <div class="card-header p-3 d-flex align-items-center justify-content-between">
+              <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Consults</h5>
+              <div>
+                <% if current_user.type_of_user == "Veterinary" %>
+                  <span class="highlight-container p-1"><span class="highlight"><%= link_to "Create new", new_pet_clinical_history_path, class: "btn btn-update" %></span></span>
+                  <span class="highlight-container p-1" style="margin-left: 15px"><span class="highlight"><%= link_to "Book an appointment", pet_veterinary_path(@pet, current_user), class: "btn btn-update" %></span></span>
+                <% else %>
+                  <span class="highlight-container p-1" style="margin-left: 15px"><span class="highlight"><%= link_to "Book an appointment", pet_veterinaries_path(@pet), class: "btn btn-update" %></span></span>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative">
+              <div class="accordion" id="accordionExample">
+                <table class="table mb-0 table-striped" data-controller="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Veterinary</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Date</th>
+                      <% if current_user.type_of_user == "Veterinary" %>
+                        <th class= "text-center" scope="col">Edit</th>
+                      <% end %>
+                      <th class= "text-center" scope="col"></th>
+                      <% if current_user.type_of_user == "Pet Owner" %>
+                        <th class= "text-center" scope="col"></th>
+                      <% end %>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                    <% if @clinical_histories != [] %>
+                      <% @clinical_histories.each_with_index do |ch, index| %>
+
+                        <tr class="fw-normal" data-table-target="row" id="<%= index %>">
+
+
+                              <td class="align-middle">
+                                <span class="ms-2"> <%= ch.user.name %> </span>
+                              </td>
+
+                              <td class="align-middle">
+                                <span> <%= ch.name %> </span>
+                              </td>
+
+                              <td class="align-middle">
+                                <span><%= ch.date.strftime('%d %B %Y') %></span>
+                              </td>
+
+                              <td class="align-middle">
+                                <% if current_user.type_of_user == "Veterinary" %>
+                                  <%= link_to edit_pet_clinical_history_path(@pet, ch), class:"ms-3 text-primary" do %>
+                                    <i class="fa-solid fa-pen"></i>
+                                  <% end %>
+                                <% end %>
+                              </td>
+
+                              <td class="align-middle">
+                                <i class="fa-solid fa-circle-chevron-down"></i>
+                              </td>
+
+                        </tr>
+
+                        <tr class="fw-normal d-none" data-table-target="body">
+                          <td colspan= "5"><%= ch.description %></td>
+                        </tr>
+
+
+                      <% end %>
+
+                    <% else %>
+                      <p>No studies available yet</p>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+  <%# ----------------STUDIES SECTION -------------------%>
+
+      <div class="container shadow bg-white mt-4 p-3" data-aos="zoom-in">
+        <div class="container mt-3 mb-3">
+
+          <div class="card">
+            <div class="card-header p-3 d-flex align-items-center justify-content-between">
+              <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Studies</h5>
+              <div>
+                <% if current_user.type_of_user == "Veterinary" %>
+                  <span class="highlight-container p-1"><span class="highlight"><%= link_to "Create new", new_pet_study_path, class: "btn btn-update" %></span></span>
+                  <span class="highlight-container p-1" style="margin-left: 15px"><span class="highlight"><%= link_to "Book an appointment", pet_veterinary_path(@pet, current_user), class: "btn btn-update" %></span></span>
+                <% else %>
+                  <span class="highlight-container p-1" style="margin-left: 15px"><span class="highlight"><%= link_to "Book an appointment", pet_veterinaries_path(@pet), class: "btn btn-update" %></span></span>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative">
+              <table class="table mb-0 table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Veterinary</th>
+                    <th scope="col">Study Name</th>
+                    <th scope="col">Date</th>
+                    <th class= "text-center" scope="col">Preview</th>
+                    <th class= "text-center" scope="col">Download</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  <% @studies = [] %>
+                  <% @clinical_histories.each do |ch| %>
+                    <% if ch.study != nil  %>
+                      <% @studies << ch.study %>
+                    <% end %>
+                  <% end %>
+
+                  <% if @studies != [] %>
+                    <% @studies.each do |st| %>
+                      <tr class="fw-normal">
+
+                        <td class="align-middle">
+                          <span class="ms-2"> <%= st.clinical_history.user.name %> </span>
+                        </td>
+
+                        <td class="align-middle">
+                          <span> <%= st.name %> </span>
+                        </td>
+
+                        <td class="align-middle">
+                          <span><%= st.clinical_history.date.strftime('%d %B %Y') %></span>
+                        </td>
+
+                        <td class="text-center">
+                          <% if st.photo.present? %>
+                            <%= cl_image_tag st.photo.key, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false, style: "width: 40px; height: 40px;" %>
+                          <% end %>
+                        </td>
+
+                        <td class="text-center">
+                          <% if st.photo.present? %>
+                            <div class="m-5 mt-0 mr-0 mb-0 align-self-center">
+                              <%= link_to cl_image_path(st.photo.key, flags: :attachment) do %>
+                                <i class="fa-solid fa-file-arrow-down h5 text-primary" style="font-size: 30px; padding-top: 5px;"></i>
+                              <% end %>
+                            </div>
+                          <% end %>
+                        </td>
+                      </tr>
+                    <% end %>
+
+                  <% else %>
+                    <p>No studies available yet</p>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+</div>

@@ -1,0 +1,59 @@
+// MY APPOINTMENTS Y APPOINTMENTS PET
+/*esto esta en my appointments y appointments de una pet*/
+
+.container-show-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+// CONTAINER PRINCIPAL PET SHOW
+.pets-show {
+  margin-bottom: 100px;
+}
+
+// CONTAINER SING UP
+.sign-up-container{
+  margin-top: -10px;
+}
+
+@media (min-width: 576px) {
+  .container-lists {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-lists {
+    max-width: 680px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container-lists {
+    max-width: 750px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-lists {
+    max-width: 850px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container-lists {
+    max-width: 1000px;
+  }
+}
+
+@media (min-width: 1800px) {
+  .container-lists {
+    max-width: 1200px !important;
+  }
+}
+
+
+.margin-all {
+  margin-top: 110px;
+}

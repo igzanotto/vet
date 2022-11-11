@@ -1,0 +1,191 @@
+<div class="container ml-auto">
+
+  <section class="pt-0" style="background-color: #F4F4F4; padding-bottom: 80px;">
+    <div class="container">
+
+      <div class="row">
+        <div class="col" data-aos="zoom-in">
+          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 d-flex justify-content-between" style="background-color: #FFFFFF !important;">
+            <ol class="breadcrumb mb-0 align-self-center">
+              <%# <li class="breadcrumb-item h4 m-0"><%= @veterinary.name </li> %>
+
+              <li class="breadcrumb-item h4 m-0", style="font-weight: bolder;"><span class="highlight-container" style= "margin-left: 10px; padding: 10px;"><span class="highlight" style= "color: white;"><%= @veterinary.name.split[0...-1].join(" ") %></span></span><%= @veterinary.name.split.last %></li>
+
+            </ol>
+            <div class="align-self-center mb-0 ml-auto h4">
+              <%= image_tag("avatar.png") %>
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4">
+
+          <div class="card mb-4" data-aos="zoom-in">
+            <div class="card-body text-center">
+              <% if @veterinary.photo.present? %>
+                <%= cl_image_tag @veterinary.photo.key, style: "width: 100%; height: 100%;"  %>
+              <% else %>
+                <%= image_tag("nologo.png", style: "width: 100%; height: 100%;")  %>
+              <% end %>
+
+              <h5 class="my-3" style="font-weight: bolder;"><%= @veterinary.name %></h5>
+
+              <div class="text-muted mb-1">
+                <% @average.times do %>
+                  <i class="fa-solid fa-star" style= "color: orange"></i>
+                <% end %>
+              </div>
+              <p class="text-muted mb-4"><%= @veterinary.location.split(",")[1] %></p>
+
+              <div class="d-flex justify-content-center mb-2">
+                  <% if current_user.type_of_user == "Pet Owner" %>
+                    <span class="highlight-container" style= "padding: 5px 15px 10px 5px;"><span class="highlight" style= "padding: 10px;"><%= link_to "Message", chatroom_path(Chatroom.first), class: "btn-update" %></span></span>
+                  <% end %>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body p-4">
+              <p style="font-weight: bolder;">New appointment</p>
+              <div>
+                  <%= render "veterinaries/newappointment" %>
+              </div>
+            </div>
+          </div>
+
+          <% if current_user.type_of_user == "Pet Owner" %>
+            <div class="card mb-4 mt-4 mb-lg-0" data-aos="flip-left">
+              <div class="card-body p-4">
+                <div>
+                    <%= render "veterinaries/newreview" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="card mb-4 mt-4 mb-lg-0" data-aos="flip-left">
+            <div class="card-body p-4">
+              <p style="font-weight: bolder;">Reviews</p>
+              <% @reviews.each do |review| %>
+                <div class="d-flex">
+                  <div style="margin-right: 15px;">
+                    <% review.rating.to_i.times do %>
+                      <i class="fa-solid fa-star" style= "color: orange"></i>
+                    <% end %>
+                  </div>
+                  <p>"<%= review.content %>"</p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-lg-8">
+          <div class="card mb-4" data-aos="flip-left">
+            <div class="card-body">
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Vet Name</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="mb-0" style="color: #4297A8; font-weight: bolder;"><%= @veterinary.name %></p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Email</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0"><%= @veterinary.email %></p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Phone</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0"><%= @veterinary.phone %></p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Doctors</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0"><%= @veterinary.doctors %></p>
+                </div>
+              </div>
+              <hr>
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Specialities</p>
+                </div>
+                <div class="col-sm-9">
+                  <% if @veterinary.speciality != [] %>
+                    <p class="text-muted mb-0"><%= @veterinary.speciality[1..-1].join(", ")%></p>
+                  <% else %>
+                    <p class="text-muted mb-0">Undefined</p>
+                  <% end %>
+                </div>
+              </div>
+              <hr>
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Working Hours</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">From 9am to 7pm</p>
+                </div>
+              </div>
+              <hr>
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Location</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0"><%= @veterinary.location %></p>
+                </div>
+              </div>
+          </div>
+        </div>
+
+
+        <div class="col-lg-8" style= "width: 100%;">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-9">
+                  <p class="mb-0" style="font-weight: bolder;">Appointments</p>
+                </div>
+                <div class="col-sm-12 mt-3 text-muted">
+                    <%= month_calendar(events: @appointments) do |date, appointments| %>
+                      <%= date %>
+                       <% appointments.each do |appointment| %>
+                        <div class="meeting">
+                          <p><%= appointment.name %></p>
+                          <small><%= appointment.time  %></small>
+                        </div>
+                      <% end %>
+                    <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</div>

@@ -1,0 +1,103 @@
+<div class="container ml-auto">
+
+  <section class="pt-0 mt-4" style="background-color: #F4F4F4; padding-bottom: 80px;">
+    <div class="container">
+
+      <div class="row">
+        <div class="col" data-aos="zoom-in">
+          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 d-flex justify-content-between shadow" style="background-color: #FFFFFF !important;">
+            <ol class="breadcrumb mb-0 align-self-center">
+              <li class="breadcrumb-item h4 m-0", style="font-weight: bolder;">Vaccination History for: <span class="highlight-container" style= "margin-left: 10px; padding: 10px;"><span class="highlight" style= "color: white;"><%= @pet.name %></span></span></li>
+            </ol>
+            <div class="align-self-center mb-0 ml-auto h4">
+              <%= image_tag("avatar.png") %>
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      <div class="container shadow bg-white mt-4 p-3" data-aos="zoom-in">
+        <div class="container mt-3 mb-3">
+
+          <div class="card">
+
+            <div class="card-header p-3 d-flex align-items-center justify-content-between">
+              <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Details</h5>
+              <div>
+                <% if current_user.type_of_user == "Veterinary" %>
+                  <span class="highlight-container p-1"><span class="highlight"><%= link_to "Create new", new_pet_vaccination_path, class: "btn btn-update" %></span></span>
+                  <span class="highlight-container p-1" style="margin-left: 15px"><span class="highlight"><%= link_to "Book an appointment", pet_veterinary_path(@pet, current_user), class: "btn btn-update" %></span></span>
+                <% else %>
+                  <span class="highlight-container p-1" style="margin-left: 15px"><span class="highlight"><%= link_to "Book an appointment", pet_veterinaries_path(@pet), class: "btn btn-update" %></span></span>
+                <% end %>
+              </div>
+            </div>
+
+
+            <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative">
+              <table class="table mb-0 table-striped">
+                <thead>
+                  <tr>
+                    <th class= "" scope="col">Date</th>
+                    <th class= "" scope="col">Veterinary</th>
+                    <th class= "" scope="col">Vaccine</th>
+                    <th class= "" scope="col">Expiration Date</th>
+                    <th class= "text-center" scope="col">Preview</th>
+                    <th class= "text-center" scope="col">Download</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  <% if @vaccinations != [] %>
+                    <% @vaccinations.each do |st| %>
+                      <tr class="fw-normal">
+
+                        <td class="">
+                          <span class="ms-2"> <%= st.clinical_history.date.strftime('%d %B %Y') %> </span>
+                        </td>
+
+                        <td class=" align-center">
+                          <span class="ms-2"> <%= st.clinical_history.user.name %> </span>
+                        </td>
+                        <td class="">
+                          <span> <%= st.vaccine.name %> </span>
+                        </td>
+                        <td class="">
+                          <span><%= st.expiration_date.strftime('%d %B %Y') %></span>
+                        </td>
+
+                        <td class="text-center">
+                          <% if st.photo.present? %>
+                            <%= cl_image_tag st.photo.key, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false, style: "width: 40px; height: 40px;"%>
+                          <% end %>
+                        </td>
+
+                        <td class="text-center">
+                          <% if st.photo.present? %>
+                            <div class="m-5 mt-0 mr-0 mb-0 align-self-center">
+                              <%= link_to cl_image_path(st.photo.key, flags: :attachment) do %>
+                                <i class="fa-solid fa-file-arrow-down h5 text-primary" style="font-size: 30px; padding-top: 5px;"></i>
+                              <% end %>
+                            </div>
+                          <% end %>
+                        </td>
+                      </tr>
+                    <% end %>
+
+                  <% else %>
+                    <p>No vaccinations available yet</p>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+</div>

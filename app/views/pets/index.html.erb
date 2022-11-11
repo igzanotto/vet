@@ -1,0 +1,38 @@
+<div class="container">
+
+  <div class="text-center mb-5">
+    <h2>Hello, <span class="highlight-container p-2" style="color:white;"><span class="highlight"><%= current_user.name %>!</span></span></h2>
+    <h5>These are your pets:</h5>
+  </div>
+
+  <div class="cards-patients justify-content-center">
+    <% @pets.each do |pet| %>
+      <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= cl_image_path pet.photo.key, height: 300, crop: :fill %>')">
+        <%= link_to pet_path(pet), style: "color:white;" do %>
+          <%= pet.name %>
+        <% end %>
+        <div class="btn-pets">
+          <%= link_to edit_pet_path(pet), class: "m-1" do %>
+            <i class="fa-regular fa-pen-to-square"></i>
+          <% end %>
+          <%= link_to pet_path(pet), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "m-1" do %>
+            <i class="fa-solid fa-trash"></i>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="card-patients" %>
+          <i class="fa-solid fa-heart-circle-plus"></i>
+        </div>
+        <div class="card-content back">
+          <p><strong>Welcome</strong> to the new pet!</p>
+          <br>
+          <span class="highlight-container p-2"><span class="highlight"><%= link_to "Add now", new_pet_path, class: "btn-update" %></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%# <img class="card-img-top" src="<%= image_path("logo 4.webp") %>
+</div>

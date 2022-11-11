@@ -1,0 +1,18 @@
+.list-group-item {
+  color: $gray-fmp;
+  font-family: "Nunito", "Helvetica", "sans-serif";
+}
+.list-group-item a {
+  color: $gray-fmp;
+}
+.m-list {
+  margin-left: 16px;
+}
+
+.fw-normal {
+  cursor: pointer;
+}
+
+.fw-normal span:hover {
+  color: $green-fmp;
+}
